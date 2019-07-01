@@ -22,6 +22,7 @@ No exemplo 2, rode o comando build.sh também.
 O programa recebe uma entrada que representa um programa em uma pseudo-linguagem, e tem como objetivo concatenar strings. Rode o programa com ./sequencia:
 
 Use o conteúdo do arquivo teste.txt como input. O programa recebe a sintaxe de uma pseudo-linguagem que concatena strings.
+ATENÇÃO: COPIE E COLE TODO O CONTEÚDO, OS ENTERS SÃO NECESSÁRIOS
 
 **Como funciona:**
 
