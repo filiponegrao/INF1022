@@ -13,7 +13,9 @@ O exemplo 1 é uma calculadora que funciona com uma entrada de 1 ou 2 inputs.
 Para executá-la rode ./addiercarbonel, e insira os inputs:
 
 1
+
 +2
+
 ATENÇÃO: INSIRA UMA LINHA DE CADA VEZ
 
 O output é a soma, e o código que faz essa soma é em C, definido no arquivo.y
