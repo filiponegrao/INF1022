@@ -1,0 +1,1 @@
+ENTRADA a b c SAIDA b INC a FIM
