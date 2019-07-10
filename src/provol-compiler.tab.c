@@ -112,8 +112,9 @@
       #include <stdio.h>
       #include <string.h>
 
+char * result = "";
+
 // Variavies auxiliares
-char * output = "";
 char * aux1;
 char * aux2;
 char * aux3;
@@ -121,8 +122,20 @@ char * aux4;
 char * temp;
 int length = 0;
 
-char * addVariables(char * symbol1, char * symbol2);
-
+char * addHeader(char * s);
+char * createVariable(char * symbol1);
+char * addVariable(char * symbol2);
+char * eraseValue(char * symbol);
+char * incValue(char * symbol);
+char * addSymbol(char * symbol);
+char * equalParams(char * symbol1, char * symbol2);
+char * insertFor(char * symbol1, char * symbol2);
+void addEndFor();
+char * concatenate(char * symbol1, char * symbol2);
+char * addIf(char * symbol1, char * symbol2);
+void addEndIf();
+char * insertWhile(char * symbol1, char * symbol2);
+char * addIfElse(char * symbol1, char * symbol2, char * symbol3);
 
 int yylex();
 void yyerror(const char *s) {
@@ -151,13 +164,13 @@ void yyerror(const char *s) {
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 25 "provol-compiler.y"
+#line 38 "provol-compiler.y"
 {
     char *str;
     int number;
  }
 /* Line 193 of yacc.c.  */
-#line 161 "provol-compiler.tab.c"
+#line 174 "provol-compiler.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -170,7 +183,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 174 "provol-compiler.tab.c"
+#line 187 "provol-compiler.tab.c"
 
 #ifdef short
 # undef short
@@ -385,16 +398,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   38
+#define YYLAST   39
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  19
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  5
+#define YYNNTS  6
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  13
+#define YYNRULES  15
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  39
+#define YYNSTATES  40
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
@@ -441,26 +454,27 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,    10,    12,    15,    17,    20,    26,    32,
-      40,    46,    50,    53
+       0,     0,     3,    10,    12,    15,    17,    20,    22,    25,
+      31,    37,    45,    51,    55,    58
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      20,     0,    -1,     4,    21,     5,    21,    22,    14,    -1,
-       3,    -1,    21,     3,    -1,    23,    -1,    23,    22,    -1,
-       8,     3,     9,    22,    17,    -1,    12,     3,     8,    22,
-      16,    -1,    11,     3,    10,    22,    15,    22,    18,    -1,
-      11,     3,    10,    22,    18,    -1,     3,    13,     3,    -1,
-       6,     3,    -1,     7,     3,    -1
+      20,     0,    -1,     4,    21,     5,    22,    23,    14,    -1,
+       3,    -1,    21,     3,    -1,     3,    -1,    22,     3,    -1,
+      24,    -1,    24,    23,    -1,     8,     3,     9,    23,    17,
+      -1,    12,     3,     8,    23,    16,    -1,    11,     3,    10,
+      23,    15,    23,    18,    -1,    11,     3,    10,    23,    18,
+      -1,     3,    13,     3,    -1,     6,     3,    -1,     7,     3,
+      -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    50,    50,    52,    53,    55,    56,    58,    59,    60,
-      61,    62,    63,    64
+       0,    63,    63,    65,    66,    68,    69,    71,    72,    75,
+      76,    77,    78,    79,    80,    81
 };
 #endif
 
@@ -472,7 +486,7 @@ static const char *const yytname[] =
   "$end", "error", "$undefined", "ID", "ENTRADA", "SAIDA", "INC", "ZERA",
   "FACA", "VEZES", "ENTAO", "SE", "ENQUANTO", "IGUAL", "FIM", "SENAO",
   "FIMENQUANTO", "FIMFACA", "FIMSEENTAO", "$accept", "program", "varlist",
-  "cmds", "cmd", 0
+  "varlist2", "cmds", "cmd", 0
 };
 #endif
 
@@ -489,15 +503,15 @@ static const yytype_uint16 yytoknum[] =
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    19,    20,    21,    21,    22,    22,    23,    23,    23,
-      23,    23,    23,    23
+       0,    19,    20,    21,    21,    22,    22,    23,    23,    24,
+      24,    24,    24,    24,    24,    24
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     6,     1,     2,     1,     2,     5,     5,     7,
-       5,     3,     2,     2
+       0,     2,     6,     1,     2,     1,     2,     1,     2,     5,
+       5,     7,     5,     3,     2,     2
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -505,33 +519,33 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     0,     0,     3,     0,     1,     4,     0,     0,     4,
-       0,     0,     0,     0,     0,     0,     5,     0,    12,    13,
-       0,     0,     0,     2,     0,     6,    11,     0,     0,     0,
-       0,     0,     0,     7,     0,    10,     8,     0,     9
+       0,     0,     0,     3,     0,     1,     4,     0,     5,     0,
+       6,     0,     0,     0,     0,     0,     0,     7,     0,    14,
+      15,     0,     0,     0,     2,     0,     8,    13,     0,     0,
+       0,     0,     0,     0,     9,     0,    12,    10,     0,    11
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     4,    15,    16
+      -1,     2,     4,     9,    16,    17
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -17
+#define YYPACT_NINF -18
 static const yytype_int8 yypact[] =
 {
-       3,     0,     2,   -17,    23,   -17,   -17,     0,    -2,    -5,
-      12,    19,    20,    24,    26,    16,    13,    28,   -17,   -17,
-      25,    22,    27,   -17,    -5,   -17,   -17,    13,    13,    13,
-      21,    -1,    17,   -17,    13,   -17,   -17,    18,   -17
+       3,     0,     2,   -18,    23,   -18,   -18,     5,   -18,    -2,
+       9,    12,    20,    24,    26,    27,    17,    13,    29,   -18,
+     -18,    25,    28,    31,   -18,     9,   -18,   -18,    13,    13,
+      13,    16,    -1,    19,   -18,    13,   -18,   -18,    18,   -18
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -17,   -17,    30,   -16,   -17
+     -18,   -18,   -18,   -18,   -17,   -18
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -541,28 +555,28 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
-      25,     9,     5,     3,    10,    11,    12,     1,    17,    13,
-      14,    30,    31,    32,    34,    18,    24,    35,    37,    10,
-      11,    12,    19,    20,    13,    14,     6,    21,     7,    22,
-      23,    26,    28,    36,    27,    29,    38,     8,    33
+      26,    10,     5,     3,    11,    12,    13,     1,     8,    14,
+      15,    31,    32,    33,    35,    19,    25,    36,    38,    11,
+      12,    13,    18,    20,    14,    15,     6,    21,     7,    22,
+      23,    24,    27,    34,    28,    37,    39,     0,    29,    30
 };
 
-static const yytype_uint8 yycheck[] =
+static const yytype_int8 yycheck[] =
 {
-      16,     3,     0,     3,     6,     7,     8,     4,    13,    11,
-      12,    27,    28,    29,    15,     3,     3,    18,    34,     6,
-       7,     8,     3,     3,    11,    12,     3,     3,     5,     3,
-      14,     3,    10,    16,     9,     8,    18,     7,    17
+      17,     3,     0,     3,     6,     7,     8,     4,     3,    11,
+      12,    28,    29,    30,    15,     3,     3,    18,    35,     6,
+       7,     8,    13,     3,    11,    12,     3,     3,     5,     3,
+       3,    14,     3,    17,     9,    16,    18,    -1,    10,     8
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     4,    20,     3,    21,     0,     3,     5,    21,     3,
-       6,     7,     8,    11,    12,    22,    23,    13,     3,     3,
-       3,     3,     3,    14,     3,    22,     3,     9,    10,     8,
-      22,    22,    22,    17,    15,    18,    16,    22,    18
+       0,     4,    20,     3,    21,     0,     3,     5,     3,    22,
+       3,     6,     7,     8,    11,    12,    23,    24,    13,     3,
+       3,     3,     3,     3,    14,     3,    23,     3,     9,    10,
+       8,    23,    23,    23,    17,    15,    18,    16,    23,    18
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1377,68 +1391,78 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 50 "provol-compiler.y"
-    { printf ("Codigo Objeto: \n%s\n", (yyvsp[(2) - (6)].str)); exit(1); ;}
+#line 63 "provol-compiler.y"
+    { char * r = addHeader((yyvsp[(2) - (6)].str)); r = concatenate(r, (yyvsp[(4) - (6)].str)); r = concatenate(r, (yyvsp[(5) - (6)].str)); printf ("\n\nCodigo Objeto: \n%s", r); exit(1); ;}
     break;
 
   case 3:
-#line 52 "provol-compiler.y"
-    { (yyval.str)=(yyvsp[(1) - (1)].str) ;}
+#line 65 "provol-compiler.y"
+    { char * r = createVariable((yyvsp[(1) - (1)].str)); (yyval.str)=r; ;}
     break;
 
   case 4:
-#line 53 "provol-compiler.y"
-    { char * result = addVariables((yyvsp[(1) - (2)].str), (yyvsp[(2) - (2)].str)); (yyval.str) = result; printf("Param1: %s", (yyval.str));}
+#line 66 "provol-compiler.y"
+    { char * r = addVariable((yyvsp[(2) - (2)].str)); result = concatenate((yyvsp[(1) - (2)].str), r); (yyval.str)=result;  ;}
     break;
 
   case 5:
-#line 55 "provol-compiler.y"
-    { (yyval.str) = (yyvsp[(1) - (1)].str); ;}
+#line 68 "provol-compiler.y"
+    { char * r = addSymbol((yyvsp[(1) - (1)].str)); (yyval.str)=r; ;}
     break;
 
   case 6:
-#line 56 "provol-compiler.y"
-    {  ;}
+#line 69 "provol-compiler.y"
+    { char * r = addSymbol((yyvsp[(2) - (2)].str)); result = concatenate((yyvsp[(1) - (2)].str), r); (yyval.str)=result ;}
     break;
 
   case 7:
-#line 58 "provol-compiler.y"
-    { ;}
+#line 71 "provol-compiler.y"
+    { (yyval.str)=(yyvsp[(1) - (1)].str); ;}
     break;
 
   case 8:
-#line 59 "provol-compiler.y"
-    { ;}
+#line 72 "provol-compiler.y"
+    {  char * r = concatenate((yyvsp[(1) - (2)].str), (yyvsp[(2) - (2)].str)); (yyval.str)=r;}
     break;
 
   case 9:
-#line 60 "provol-compiler.y"
-    { ;}
+#line 75 "provol-compiler.y"
+    { char * r = insertFor((yyvsp[(2) - (5)].str), (yyvsp[(4) - (5)].str)); (yyval.str)=r ;}
     break;
 
   case 10:
-#line 61 "provol-compiler.y"
-    {;}
+#line 76 "provol-compiler.y"
+    { char * r = insertWhile((yyvsp[(2) - (5)].str), (yyvsp[(4) - (5)].str)); r = concatenate(r, "  }\n"); (yyval.str)=r; result = concatenate(result, r); ;}
     break;
 
   case 11:
-#line 62 "provol-compiler.y"
-    { ;}
+#line 77 "provol-compiler.y"
+    { char * r = addIfElse((yyvsp[(2) - (7)].str), (yyvsp[(4) - (7)].str), (yyvsp[(6) - (7)].str)); r = concatenate(r, "\n  }\n"); (yyval.str)=r; result = concatenate(result, r);;}
     break;
 
   case 12:
-#line 63 "provol-compiler.y"
-    {  ;}
+#line 78 "provol-compiler.y"
+    { char * r = addIf((yyvsp[(2) - (5)].str), (yyvsp[(4) - (5)].str));  r = concatenate(r, "  }\n"); (yyval.str)=r; result = concatenate(result, r);;}
     break;
 
   case 13:
-#line 64 "provol-compiler.y"
-    {  ;}
+#line 79 "provol-compiler.y"
+    { char * r = equalParams((yyvsp[(1) - (3)].str), (yyvsp[(3) - (3)].str)); (yyval.str)=r; ;}
+    break;
+
+  case 14:
+#line 80 "provol-compiler.y"
+    { char * r = incValue((yyvsp[(2) - (2)].str)); (yyval.str)=r;;}
+    break;
+
+  case 15:
+#line 81 "provol-compiler.y"
+    { char * r = eraseValue((yyvsp[(2) - (2)].str)); (yyval.str)=r; ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1442 "provol-compiler.tab.c"
+#line 1466 "provol-compiler.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1652,7 +1676,7 @@ yyreturn:
 }
 
 
-#line 66 "provol-compiler.y"
+#line 83 "provol-compiler.y"
 
 
 int main(int argc, char *argv[])
@@ -1661,34 +1685,237 @@ int main(int argc, char *argv[])
     return(0);
 }
 
-char * addVariables(char * symbol1, char * symbol2) {
+char * createVariable(char * symbol1) {
 
   aux1 = "var ";
   aux2 = " = 0;";
   aux3 = "\n";
-  length = strlen(aux1) + strlen(symbol1) + strlen(aux2);
-  length += strlen(aux3) + strlen(aux1) + strlen(symbol2) + strlen(aux2) +1;
+  length += strlen(aux1) + strlen(symbol1) + strlen(aux2) + strlen(aux3) + 1;
 
   char * result = malloc(length);
-  strcpy(result, aux1);
+  strcat(result, aux1);
   strcat(result, symbol1);
   strcat(result, aux2);
   strcat(result, aux3);
-  strcat(result, aux1);
-  strcat(result, symbol2);
-  strcat(result, aux2);
-
-  temp = malloc(strlen(output) + 1);
-  strcpy(temp, output);
-
-  output = malloc(strlen(result) +  strlen(temp) + 1);
-  strcpy(output, result);
-
-  char * params = malloc(strlen(symbol1) + strlen(symbol2) + 1);
-  strcpy(params, symbol1);
-  strcat(params, symbol2);
 
   return result;
 }
+
+char * addVariable(char * symbol) {
+
+  aux1 = "var ";
+  aux2 = " = 0;";
+  aux3 = "\n";
+  length += strlen(aux1) + strlen(symbol) + strlen(aux2) + strlen(aux3) + 1;
+
+  char * r = malloc(length);
+  strcat(r, aux1);
+  strcat(r, symbol);
+  strcat(r, aux2);
+  strcat(r, aux3);
+
+  return r;
+}
+
+char * eraseValue(char * symbol) {
+
+  aux1 = " = 0;";
+  aux2 = "\n  ";
+  
+  length = strlen(aux2) + strlen(symbol) + strlen(aux1) + 1;
+
+  char * r = malloc(length);
+  strcat(r, aux2);
+  strcat(r, symbol);
+  strcat(r, aux1);
+
+  return r;
+}
+
+char * incValue(char * symbol) {
+
+  aux1 = "\n  ";
+  aux2 = " += 1;";
+  
+  length = strlen(symbol) + strlen(aux2) + + strlen(aux1) + 1;
+
+  char * r = malloc(length);
+  strcpy(r, aux1);
+  strcat(r, symbol);
+  strcat(r, aux2);
+
+  return r;
+}
+
+char * addHeader(char * s) {
+
+  aux1 = "\npublic main() return ";
+
+  length = strlen(s) + strlen(result) + strlen(aux1) + 1;
+
+  char * r = malloc(length);
+  strcpy(r, s);
+  strcat(r, aux1);
+
+  return r;
+}
+
+void addEndFor() {
+
+  aux1 = "  }\n";
+
+  length = strlen(result) + strlen(aux1) + 1;
+
+  char * r = malloc(length);
+  strcpy(r, result);
+  strcat(r, aux1);
+
+  result = r;
+}
+
+char * addSymbol(char * symbol) {
+  
+  aux1 = " ";
+  length = strlen(aux1) + strlen(symbol) + 1;
+
+  char * r = malloc(length);
+  strcat(r, symbol);
+  strcat(r, aux1);
+
+  return r;
+}
+
+void addCommands() {
+  
+  aux1 = "{\n";
+  length = strlen(result) + strlen(aux1) + 1;
+
+  char * r = malloc(length);
+  strcpy(r, result);
+  strcat(r, aux1);
+
+  result = r;
+}
+
+void addEndIf() {
+  
+  aux1 = "}\n";
+  length = strlen(result) + strlen(aux1) + 1;
+
+  char * r = malloc(length);
+  strcpy(r, result);
+  strcat(r, aux1);
+
+  result = r;
+}
+
+char * equalParams(char * symbol1, char * symbol2) {
+
+  aux1 = "\n  ";
+  aux2 = " = ";
+  length = strlen(aux1) + strlen(symbol1) + strlen(symbol2) + strlen(aux2) + 1;
+
+  char * r = malloc(length);
+  strcpy(r, aux1);
+  strcat(r, symbol1);
+  strcat(r, aux2);
+  strcat(r, symbol2);
+
+  return r;
+}
+
+char * insertFor(char * symbol1, char * symbol2) {
+
+  aux1 = "\n";
+  aux2 = "  for 1 to ";
+  aux3 = " {\n";
+  aux4 = "\n  }\n";
+
+
+  length = strlen(aux1) + strlen(aux2) + strlen(symbol1) + strlen(aux3) + 1;
+  length += strlen(symbol2) + strlen(aux4);
+
+  char * r = malloc(length);
+  strcpy(r, aux1);
+  strcat(r, aux2);
+  strcat(r, symbol1);
+  strcat(r, aux3);
+  strcat(r, symbol2);
+  strcat(r, aux4);
+
+  return r;
+}
+
+char * insertWhile(char * symbol1, char * symbol2) {
+
+  aux1 = "\n";
+  aux2 = "  while ";
+  aux3 = " {\n";
+  aux4 = "\n  }\n";
+
+
+  length = strlen(aux1) + strlen(aux2) + strlen(symbol1) + strlen(aux3) + 1;
+  length += strlen(symbol2) + strlen(aux4);
+
+  char * r = malloc(length);
+  strcpy(r, aux1);
+  strcat(r, aux2);
+  strcat(r, symbol1);
+  strcat(r, aux3);
+  strcat(r, symbol2);
+  strcat(r, aux4);
+
+  return r;
+}
+
+char * concatenate(char * symbol1, char * symbol2) {
+
+  length = strlen(symbol1) + strlen(symbol2) + 1;
+
+  char * r = malloc(length);
+  strcpy(r, symbol1);
+  strcat(r, symbol2);
+
+  return r;
+}
+
+char * addIf(char * symbol1, char * symbol2) {
+
+    aux1 = "\n  if ";
+    aux2 = " {";
+    aux3 = "\n";
+
+    length = strlen(aux1) + strlen(symbol1) + strlen(aux2) + strlen(symbol2) + strlen(aux3) + 1;
+
+    char * r = malloc(length);
+    strcpy(r, aux1);
+    strcat(r, symbol1);
+    strcat(r, aux2);
+    strcat(r, symbol2);
+    strcat(r, aux3);
+
+    return r;
+}
+
+char * addIfElse(char * symbol1, char * symbol2, char * symbol3) {
+
+    aux1 = "\n  if ";
+    aux2 = " {";
+    aux4 = "\n  } else {";
+
+    length = strlen(aux1) + strlen(symbol1) + strlen(aux2) + strlen(symbol2) + strlen(aux4) + strlen(symbol3) +1;
+
+    char * r = malloc(length);
+    strcpy(r, aux1);
+    strcat(r, symbol1);
+    strcat(r, aux2);
+    strcat(r, symbol2);
+    strcat(r, aux4);
+    strcat(r, symbol3);
+
+    return r;
+}
+
+
 
 

@@ -668,7 +668,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 5 "provol-compiler.l"
+#line 6 "provol-compiler.l"
 
 
 #line 675 "lex.yy.c"
@@ -756,87 +756,87 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 7 "provol-compiler.l"
+#line 8 "provol-compiler.l"
 return(ENTRADA);
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 8 "provol-compiler.l"
-return(SAIDA);
+#line 9 "provol-compiler.l"
+{ return(SAIDA); };
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 9 "provol-compiler.l"
+#line 10 "provol-compiler.l"
 return(FACA);
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 10 "provol-compiler.l"
+#line 11 "provol-compiler.l"
 return(ENQUANTO);
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 11 "provol-compiler.l"
+#line 12 "provol-compiler.l"
 return(ENTAO);
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 12 "provol-compiler.l"
+#line 13 "provol-compiler.l"
 return(VEZES);
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 13 "provol-compiler.l"
+#line 14 "provol-compiler.l"
 return(IGUAL);
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 14 "provol-compiler.l"
+#line 15 "provol-compiler.l"
 return(SENAO);
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 15 "provol-compiler.l"
+#line 16 "provol-compiler.l"
 return(SE);
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 16 "provol-compiler.l"
+#line 17 "provol-compiler.l"
 return(INC);
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 17 "provol-compiler.l"
+#line 18 "provol-compiler.l"
 return(FIM);
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 18 "provol-compiler.l"
+#line 19 "provol-compiler.l"
 return(ZERA);
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 19 "provol-compiler.l"
+#line 20 "provol-compiler.l"
 return(FIMENQUANTO);
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 20 "provol-compiler.l"
-return(FIMFACA);
+#line 21 "provol-compiler.l"
+{ return(FIMFACA);};
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 21 "provol-compiler.l"
+#line 22 "provol-compiler.l"
 return(FIMSEENTAO);
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 22 "provol-compiler.l"
+#line 23 "provol-compiler.l"
 { yylval.str = strdup(yytext); return ID; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 23 "provol-compiler.l"
+#line 24 "provol-compiler.l"
 ECHO;
 	YY_BREAK
 #line 843 "lex.yy.c"
@@ -1836,4 +1836,4 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 23 "provol-compiler.l"
+#line 24 "provol-compiler.l"

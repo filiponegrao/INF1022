@@ -1,0 +1,19 @@
+              
+
+Codigo Objeto: 
+var a = 0;
+var b = 0;
+var c = 0;
+
+Falcao: var a = 0;
+var b = 0;
+var c = 0;
+
+public main() return b 
+Dolar5: 
+  a += 1;
+  while a {
+
+  b += 1;
+  }
+  }
