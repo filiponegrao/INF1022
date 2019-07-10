@@ -762,7 +762,7 @@ return(ENTRADA);
 case 2:
 YY_RULE_SETUP
 #line 9 "provol-compiler.l"
-{ return(SAIDA); };
+return(SAIDA);
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
@@ -822,7 +822,7 @@ return(FIMENQUANTO);
 case 14:
 YY_RULE_SETUP
 #line 21 "provol-compiler.l"
-{ return(FIMFACA);};
+return(FIMFACA);
 	YY_BREAK
 case 15:
 YY_RULE_SETUP

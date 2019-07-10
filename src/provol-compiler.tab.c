@@ -136,6 +136,7 @@ char * addIf(char * symbol1, char * symbol2);
 void addEndIf();
 char * insertWhile(char * symbol1, char * symbol2);
 char * addIfElse(char * symbol1, char * symbol2, char * symbol3);
+char * assemblyCode(char * symbol1, char * symbol2, char * symbol3);
 
 int yylex();
 void yyerror(const char *s) {
@@ -164,13 +165,13 @@ void yyerror(const char *s) {
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 38 "provol-compiler.y"
+#line 39 "provol-compiler.y"
 {
     char *str;
     int number;
  }
 /* Line 193 of yacc.c.  */
-#line 174 "provol-compiler.tab.c"
+#line 175 "provol-compiler.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -183,7 +184,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 187 "provol-compiler.tab.c"
+#line 188 "provol-compiler.tab.c"
 
 #ifdef short
 # undef short
@@ -473,8 +474,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    63,    63,    65,    66,    68,    69,    71,    72,    75,
-      76,    77,    78,    79,    80,    81
+       0,    64,    64,    66,    67,    69,    70,    72,    73,    76,
+      77,    78,    79,    80,    81,    82
 };
 #endif
 
@@ -1391,78 +1392,78 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 63 "provol-compiler.y"
-    { char * r = addHeader((yyvsp[(2) - (6)].str)); r = concatenate(r, (yyvsp[(4) - (6)].str)); r = concatenate(r, (yyvsp[(5) - (6)].str)); printf ("\n\nCodigo Objeto: \n%s", r); exit(1); ;}
+#line 64 "provol-compiler.y"
+    { char * r = assemblyCode((yyvsp[(2) - (6)].str), (yyvsp[(4) - (6)].str), (yyvsp[(5) - (6)].str)); printf ("\n\nCodigo Objeto: \n%s", r); exit(1); ;}
     break;
 
   case 3:
-#line 65 "provol-compiler.y"
+#line 66 "provol-compiler.y"
     { char * r = createVariable((yyvsp[(1) - (1)].str)); (yyval.str)=r; ;}
     break;
 
   case 4:
-#line 66 "provol-compiler.y"
+#line 67 "provol-compiler.y"
     { char * r = addVariable((yyvsp[(2) - (2)].str)); result = concatenate((yyvsp[(1) - (2)].str), r); (yyval.str)=result;  ;}
     break;
 
   case 5:
-#line 68 "provol-compiler.y"
+#line 69 "provol-compiler.y"
     { char * r = addSymbol((yyvsp[(1) - (1)].str)); (yyval.str)=r; ;}
     break;
 
   case 6:
-#line 69 "provol-compiler.y"
+#line 70 "provol-compiler.y"
     { char * r = addSymbol((yyvsp[(2) - (2)].str)); result = concatenate((yyvsp[(1) - (2)].str), r); (yyval.str)=result ;}
     break;
 
   case 7:
-#line 71 "provol-compiler.y"
+#line 72 "provol-compiler.y"
     { (yyval.str)=(yyvsp[(1) - (1)].str); ;}
     break;
 
   case 8:
-#line 72 "provol-compiler.y"
+#line 73 "provol-compiler.y"
     {  char * r = concatenate((yyvsp[(1) - (2)].str), (yyvsp[(2) - (2)].str)); (yyval.str)=r;}
     break;
 
   case 9:
-#line 75 "provol-compiler.y"
+#line 76 "provol-compiler.y"
     { char * r = insertFor((yyvsp[(2) - (5)].str), (yyvsp[(4) - (5)].str)); (yyval.str)=r ;}
     break;
 
   case 10:
-#line 76 "provol-compiler.y"
+#line 77 "provol-compiler.y"
     { char * r = insertWhile((yyvsp[(2) - (5)].str), (yyvsp[(4) - (5)].str)); r = concatenate(r, "  }\n"); (yyval.str)=r; result = concatenate(result, r); ;}
     break;
 
   case 11:
-#line 77 "provol-compiler.y"
-    { char * r = addIfElse((yyvsp[(2) - (7)].str), (yyvsp[(4) - (7)].str), (yyvsp[(6) - (7)].str)); r = concatenate(r, "\n  }\n"); (yyval.str)=r; result = concatenate(result, r);;}
+#line 78 "provol-compiler.y"
+    { char * r = addIfElse((yyvsp[(2) - (7)].str), (yyvsp[(4) - (7)].str), (yyvsp[(6) - (7)].str)); r = concatenate(r, "\n  }"); (yyval.str)=r; result = concatenate(result, r);;}
     break;
 
   case 12:
-#line 78 "provol-compiler.y"
+#line 79 "provol-compiler.y"
     { char * r = addIf((yyvsp[(2) - (5)].str), (yyvsp[(4) - (5)].str));  r = concatenate(r, "  }\n"); (yyval.str)=r; result = concatenate(result, r);;}
     break;
 
   case 13:
-#line 79 "provol-compiler.y"
+#line 80 "provol-compiler.y"
     { char * r = equalParams((yyvsp[(1) - (3)].str), (yyvsp[(3) - (3)].str)); (yyval.str)=r; ;}
     break;
 
   case 14:
-#line 80 "provol-compiler.y"
+#line 81 "provol-compiler.y"
     { char * r = incValue((yyvsp[(2) - (2)].str)); (yyval.str)=r;;}
     break;
 
   case 15:
-#line 81 "provol-compiler.y"
+#line 82 "provol-compiler.y"
     { char * r = eraseValue((yyvsp[(2) - (2)].str)); (yyval.str)=r; ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1466 "provol-compiler.tab.c"
+#line 1467 "provol-compiler.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1676,7 +1677,7 @@ yyreturn:
 }
 
 
-#line 83 "provol-compiler.y"
+#line 84 "provol-compiler.y"
 
 
 int main(int argc, char *argv[])
@@ -1881,40 +1882,59 @@ char * concatenate(char * symbol1, char * symbol2) {
 
 char * addIf(char * symbol1, char * symbol2) {
 
-    aux1 = "\n  if ";
-    aux2 = " {";
-    aux3 = "\n";
+  aux1 = "\n  if ";
+  aux2 = " {";
+  aux3 = "\n";
 
-    length = strlen(aux1) + strlen(symbol1) + strlen(aux2) + strlen(symbol2) + strlen(aux3) + 1;
+  length = strlen(aux1) + strlen(symbol1) + strlen(aux2) + strlen(symbol2) + strlen(aux3) + 1;
 
-    char * r = malloc(length);
-    strcpy(r, aux1);
-    strcat(r, symbol1);
-    strcat(r, aux2);
-    strcat(r, symbol2);
-    strcat(r, aux3);
+  char * r = malloc(length);
+  strcpy(r, aux1);
+  strcat(r, symbol1);
+  strcat(r, aux2);
+  strcat(r, symbol2);
+  strcat(r, aux3);
 
-    return r;
+  return r;
 }
 
 char * addIfElse(char * symbol1, char * symbol2, char * symbol3) {
 
-    aux1 = "\n  if ";
-    aux2 = " {";
-    aux4 = "\n  } else {";
+  aux1 = "\n  if ";
+  aux2 = " {";
+  aux4 = "\n  } else {";
 
-    length = strlen(aux1) + strlen(symbol1) + strlen(aux2) + strlen(symbol2) + strlen(aux4) + strlen(symbol3) +1;
+  length = strlen(aux1) + strlen(symbol1) + strlen(aux2) + strlen(symbol2) + strlen(aux4) + strlen(symbol3) +1;
 
-    char * r = malloc(length);
-    strcpy(r, aux1);
-    strcat(r, symbol1);
-    strcat(r, aux2);
-    strcat(r, symbol2);
-    strcat(r, aux4);
-    strcat(r, symbol3);
+  char * r = malloc(length);
+  strcpy(r, aux1);
+  strcat(r, symbol1);
+  strcat(r, aux2);
+  strcat(r, symbol2);
+  strcat(r, aux4);
+  strcat(r, symbol3);
 
-    return r;
+  return r;
 }
+
+char * assemblyCode(char * symbol1, char * symbol2, char * symbol3) {
+
+  aux1 = "\n*** INF1022: Pseudo-Código ***\n\n";
+  aux2 = "\n\n*** FIM do Pseudo-Código  ****\n\n";
+
+  char * r = concatenate(aux1, symbol1);
+  r = addHeader(r);
+  r = concatenate(r, symbol2);
+  r = concatenate(r, symbol3);
+  r = concatenate(r, aux2);
+
+
+  return r;
+}
+
+
+
+
 
 
 

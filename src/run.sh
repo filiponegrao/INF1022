@@ -1,2 +1,2 @@
 bash build.sh
-./compiler < teste4.txt
+./compiler < teste$1.txt

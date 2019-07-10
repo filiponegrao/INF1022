@@ -80,7 +80,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 38 "provol-compiler.y"
+#line 39 "provol-compiler.y"
 {
     char *str;
     int number;

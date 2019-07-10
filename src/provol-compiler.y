@@ -27,6 +27,7 @@ char * addIf(char * symbol1, char * symbol2);
 void addEndIf();
 char * insertWhile(char * symbol1, char * symbol2);
 char * addIfElse(char * symbol1, char * symbol2, char * symbol3);
+char * assemblyCode(char * symbol1, char * symbol2, char * symbol3);
 
 int yylex();
 void yyerror(const char *s) {
@@ -60,7 +61,7 @@ void yyerror(const char *s) {
 
 %start program
 %%
-program : ENTRADA varlist SAIDA varlist2 cmds FIM { char * r = addHeader($2); r = concatenate(r, $4); r = concatenate(r, $5); printf ("\n\nCodigo Objeto: \n%s", r); exit(1); };
+program : ENTRADA varlist SAIDA varlist2 cmds FIM { char * r = assemblyCode($2, $4, $5); printf ("\n\nCodigo Objeto: \n%s", r); exit(1); };
 
 varlist : ID { char * r = createVariable($1); $$=r; };
         | varlist ID { char * r = addVariable($2); result = concatenate($1, r); $$=result;  };
@@ -74,7 +75,7 @@ cmds    : cmd { $$=$1; };
 
 cmd     : FACA ID VEZES cmds FIMFACA { char * r = insertFor($2, $4); $$=r };
 cmd     : ENQUANTO ID FACA cmds FIMENQUANTO { char * r = insertWhile($2, $4); r = concatenate(r, "  }\n"); $$=r; result = concatenate(result, r); };
-cmd     : SE ID ENTAO cmds SENAO cmds FIMSEENTAO { char * r = addIfElse($2, $4, $6); r = concatenate(r, "\n  }\n"); $$=r; result = concatenate(result, r);};
+cmd     : SE ID ENTAO cmds SENAO cmds FIMSEENTAO { char * r = addIfElse($2, $4, $6); r = concatenate(r, "\n  }"); $$=r; result = concatenate(result, r);};
         | SE ID ENTAO cmds FIMSEENTAO { char * r = addIf($2, $4);  r = concatenate(r, "  }\n"); $$=r; result = concatenate(result, r);};
 cmd     : ID IGUAL ID { char * r = equalParams($1, $3); $$=r; };
         | INC ID { char * r = incValue($2); $$=r;};
@@ -284,40 +285,59 @@ char * concatenate(char * symbol1, char * symbol2) {
 
 char * addIf(char * symbol1, char * symbol2) {
 
-    aux1 = "\n  if ";
-    aux2 = " {";
-    aux3 = "\n";
+  aux1 = "\n  if ";
+  aux2 = " {";
+  aux3 = "\n";
 
-    length = strlen(aux1) + strlen(symbol1) + strlen(aux2) + strlen(symbol2) + strlen(aux3) + 1;
+  length = strlen(aux1) + strlen(symbol1) + strlen(aux2) + strlen(symbol2) + strlen(aux3) + 1;
 
-    char * r = malloc(length);
-    strcpy(r, aux1);
-    strcat(r, symbol1);
-    strcat(r, aux2);
-    strcat(r, symbol2);
-    strcat(r, aux3);
+  char * r = malloc(length);
+  strcpy(r, aux1);
+  strcat(r, symbol1);
+  strcat(r, aux2);
+  strcat(r, symbol2);
+  strcat(r, aux3);
 
-    return r;
+  return r;
 }
 
 char * addIfElse(char * symbol1, char * symbol2, char * symbol3) {
 
-    aux1 = "\n  if ";
-    aux2 = " {";
-    aux4 = "\n  } else {";
+  aux1 = "\n  if ";
+  aux2 = " {";
+  aux4 = "\n  } else {";
 
-    length = strlen(aux1) + strlen(symbol1) + strlen(aux2) + strlen(symbol2) + strlen(aux4) + strlen(symbol3) +1;
+  length = strlen(aux1) + strlen(symbol1) + strlen(aux2) + strlen(symbol2) + strlen(aux4) + strlen(symbol3) +1;
 
-    char * r = malloc(length);
-    strcpy(r, aux1);
-    strcat(r, symbol1);
-    strcat(r, aux2);
-    strcat(r, symbol2);
-    strcat(r, aux4);
-    strcat(r, symbol3);
+  char * r = malloc(length);
+  strcpy(r, aux1);
+  strcat(r, symbol1);
+  strcat(r, aux2);
+  strcat(r, symbol2);
+  strcat(r, aux4);
+  strcat(r, symbol3);
 
-    return r;
+  return r;
 }
+
+char * assemblyCode(char * symbol1, char * symbol2, char * symbol3) {
+
+  aux1 = "\n*** INF1022: Pseudo-Código ***\n\n";
+  aux2 = "\n\n*** FIM do Pseudo-Código  ****\n\n";
+
+  char * r = concatenate(aux1, symbol1);
+  r = addHeader(r);
+  r = concatenate(r, symbol2);
+  r = concatenate(r, symbol3);
+  r = concatenate(r, aux2);
+
+
+  return r;
+}
+
+
+
+
 
 
 
