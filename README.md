@@ -42,15 +42,14 @@ Esse trecho de código é o contido entre { } após a definição de cada token.
 1 - Modificar o arquivo .l para aceitar todos os símbolos da Provol-One;
 2 - Modificar o arquivo .y para aceitar todos os símbolos da Provol-One; Definir variáveis de strings públicas que contenham símbolos do XML; Modificar regras de construção (leu um termo, vai pra um símbolo terminal ou não terminal); 
 
-
-COMO USAR:
+###COMO USAR:###
 
 Vá na pasta src;
 
 Dentro existem 4 exemplos;
 
-Para rodar execute: bash run.sh <NUMERO-DO-EXEMPLO>;
-	
+Para rodar execute: bash run.sh NUMERO-DO-EXEMPLO;
+
 Ex.:
 bash run.sh 4
 
