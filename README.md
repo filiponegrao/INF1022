@@ -46,8 +46,11 @@ Esse trecho de código é o contido entre { } após a definição de cada token.
 COMO USAR:
 
 Vá na pasta src;
+
 Dentro existem 4 exemplos;
+
 Para rodar execute: bash run.sh <NUMERO-DO-EXEMPLO>;
+	
 Ex.:
 bash run.sh 4
 
